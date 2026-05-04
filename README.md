@@ -1,82 +1,61 @@
-🫁 Pneumax
+🫁 Pneumax: Deep Learning for Pediatric Pneumonia Detection
+Pneumax is a specialized deep learning pipeline engineered to detect pneumonia in pediatric chest X-rays. By leveraging Keras and TensorFlow, the project compares the efficacy of a bespoke Convolutional Neural Network (CNN) against a fine-tuned MobileNetV2 architecture.
 
-Pneumax is a deep learning pipeline designed to detect pneumonia in pediatric patients using chest X-ray images. The project leverages Keras and TensorFlow to train both a custom Convolutional Neural Network (CNN) and a transfer learning model (MobileNetV2) for accurate image classification.
+🚀 Key Features
+Dual-Architecture Strategy: Compare a custom-built CNN against a high-performance Transfer Learning model.
 
-🚀 Features
-Automated Dataset Download
-Seamlessly fetches the Chest X-Ray Images (Pneumonia) dataset using kagglehub.
-Two Model Architectures
-Custom-built Convolutional Neural Network (CNN)
-Transfer Learning with MobileNetV2
-End-to-End Pipeline
-Training
-Evaluation
-Prediction
-Interactive GUI for visualization
-Performance Evaluation
-Confusion matrix
-Accuracy
-Classification metrics
-📁 Project Structure
-pneumonia_model/
-│
-├── custom_cnn.py          # Custom CNN architecture
-├── transfer_learning.py  # MobileNetV2 transfer learning model
-├── train.py              # Training script
-├── evaluate.py           # Model evaluation script
-├── predict.py            # Prediction script for new images
-├── gui.py                # GUI for user interaction
-└── utils.py              # Helper functions (data, preprocessing, visualization)
-⚙️ Installation
-Clone the repository
-git clone https://github.com/yourusername/pneumax.git
-cd pneumax
-Create a virtual environment (recommended)
-python -m venv .venv
+Automated Data Management: Integrated hooks to handle the ingestion of the 5.8GB Paul Mooney dataset automatically.
 
-# Windows
-.venv\Scripts\activate
+Production-Ready Evaluation: Built-in generation of Confusion Matrices and Precision-Recall curves.
 
-# macOS/Linux
-source .venv/bin/activate
-Install dependencies
-cd pneumonia_model
-pip install -r requirements.txt
-🧠 Usage
-🔹 Train Models
+Interactive Interface: A dedicated GUI for users to upload images and receive instant classifications.
 
-The dataset will automatically download via kagglehub during the first training run.
+🛠 Project Architecture
+The repository is structured to maintain a strict separation between model definitions and the execution pipeline:
 
-Train Custom CNN:
+Core Modules
+custom_cnn.py: Defines a multi-layer CNN with Dropout and Batch Normalization.
 
-python train.py --model custom --epochs 20
+transfer_learning.py: Implements MobileNetV2 with frozen base layers for feature extraction.
 
-Train Transfer Learning Model (MobileNetV2):
+train.py: The orchestration engine for training, supporting dynamic hyperparameter tuning.
 
-python train.py --model transfer --epochs 20
-🔹 Make Predictions
+gui.py: A graphical interface for real-time image inference.
 
-Run the GUI to classify X-ray images:
+utils.py: Handles data augmentation, image resizing, and normalization.
 
-python gui.py
+📈 Technical Workflow
+Data Ingestion: The pipeline fetches the dataset and splits it into Training, Validation, and Testing sets.
 
-Or use the prediction script:
+Preprocessing: Images are normalized and augmented (rotation, zoom, horizontal flip) to prevent overfitting.
 
-python predict.py --image path/to/image.jpg
-📊 Dataset
+Training:
 
-This project uses the Chest X-Ray Images (Pneumonia) dataset by Paul Mooney.
+Custom CNN: Trains from random initialization to learn specific spatial features.
 
-Contains pediatric chest X-ray images
-Two classes:
-Normal
-Pneumonia
-🤝 Contributing
+MobileNetV2: Uses weights pre-trained on ImageNet, fine-tuning the final dense layers for binary classification.
 
-Contributions are welcome!
+Analysis: Performance is measured using Binary Cross-Entropy loss and monitored via Accuracy and F1-Score.
 
-Open an issue for bugs or suggestions
-Submit a pull request for improvements
-📌 Notes
-Designed for educational and research purposes
-Not intended for clinical diagnosis
+💻 Getting Started
+Prerequisites
+Python 3.9 or higher
+
+TensorFlow 2.x
+
+A Kaggle account for dataset access
+
+Installation
+Clone the repository to your local machine.
+
+Set up a virtual environment to isolate your dependencies.
+
+Install the required packages (TensorFlow, OpenCV, and Kagglehub).
+
+Execution
+The pipeline is managed via Python scripts. You can trigger the training process by specifying the model type (custom or transfer) and the number of iterations. For a more visual experience, the included GUI script allows for direct image uploads and immediate classification results.
+
+📊 Dataset Reference
+This project utilizes the Chest X-Ray Images (Pneumonia) dataset, which contains 5,863 JPEG images. The images were collected from pediatric patients at the Guangzhou Women and Children’s Medical Center.
+
+Disclaimer: This tool is for educational and research purposes and is not a substitute for professional medical diagnosis
