@@ -11,6 +11,7 @@ def build_custom_cnn(input_shape=(224, 224, 3)):
         layers.RandomZoom(0.15),
         layers.RandomTranslation(height_factor=0.1, width_factor=0.1),
         layers.RandomContrast(factor=0.1),
+        layers.RandomBrightness(factor=0.2),
     ], name="data_augmentation")
 
     model = models.Sequential([
@@ -58,8 +59,9 @@ def build_custom_cnn(input_shape=(224, 224, 3)):
     ])
     
     # Use Focal Loss to heavily penalize hard-to-classify examples
+    # alpha=0.15 places 85% weight on False Positives (misclassifying Normal)
     model.compile(optimizer='adam',
-                  loss=tf.keras.losses.BinaryFocalCrossentropy(gamma=2.0, alpha=0.25),
+                  loss=tf.keras.losses.BinaryFocalCrossentropy(gamma=2.0, alpha=0.15),
                   metrics=['accuracy'])
     
     return model

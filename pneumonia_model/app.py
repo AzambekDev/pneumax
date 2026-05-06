@@ -43,7 +43,8 @@ def analyze_image(img_stream):
         
         # Since we used a Sigmoid activation (0 to 1), 
         # a score close to 0 means Normal, close to 1 means Pneumonia.
-        if score > 0.5:
+        # Increase threshold to 0.65 to reduce False Positives
+        if score > 0.65:
             confidence = score * 100
             diagnosis = "PNEUMONIA"
         else:

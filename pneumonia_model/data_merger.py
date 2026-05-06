@@ -22,12 +22,9 @@ def merge_datasets():
     
     print(f"Current Training Split -> Normal: {current_normal} | Pneumonia: {current_pneumonia}")
     
-    if current_normal >= current_pneumonia:
-        print("Dataset is already balanced! No action needed.")
-        return
-
-    images_needed = current_pneumonia - current_normal
-    print(f"We need {images_needed} more 'Normal' images to perfectly balance the dataset.")
+    # Add 4000 extra normal images to heavily diversify the normal class
+    images_needed = 4000
+    print(f"We need {images_needed} more 'Normal' images to heavily diversify the dataset and reduce false positives.")
     
     print("\nStep 2/4: Downloading COVID-19 Radiography Database (for its Normal X-Rays)...")
     print("This is a large dataset, it might take a moment to download (~1.1GB).")

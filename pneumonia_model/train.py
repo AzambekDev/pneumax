@@ -26,7 +26,8 @@ def train(model_type, data_dir, epochs=20, batch_size=32):
         
     total_images = num_normal + num_pneumonia
     
-    weight_for_0 = (1 / max(1, num_normal)) * (total_images / 2.0)
+    # Apply a 1.5x multiplier to the Normal class weight to penalize False Positives
+    weight_for_0 = ((1 / max(1, num_normal)) * (total_images / 2.0)) * 1.5
     weight_for_1 = (1 / max(1, num_pneumonia)) * (total_images / 2.0)
     class_weights = {0: weight_for_0, 1: weight_for_1}
     
@@ -84,7 +85,7 @@ def train(model_type, data_dir, epochs=20, batch_size=32):
             
             # Unfreeze the base model
             for layer in model.layers:
-                if layer.name == 'efficientnetv2-b0':
+                if 'densenet' in layer.name.lower():
                     layer.trainable = True
                     # Keep BatchNormalization frozen to prevent training instability
                     for sub_layer in layer.layers:
@@ -92,10 +93,11 @@ def train(model_type, data_dir, epochs=20, batch_size=32):
                             sub_layer.trainable = False
                             
             # Recompile with a much lower learning rate for fine-tuning
+            # Alpha=0.25 (vs 0.15) increases the weight of the "Positive" class to catch more pneumonia
             model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
                           loss=tf.keras.losses.BinaryFocalCrossentropy(gamma=2.0, alpha=0.25),
-                          metrics=['accuracy'])
-                          
+                          metrics=['accuracy', tf.keras.metrics.AUC(name='auc')])
+                            
             history2 = model.fit(
                 train_ds, validation_data=val_ds, epochs=phase2_epochs,
                 callbacks=[model_checkpoint, early_stopping, reduce_lr], class_weight=class_weights

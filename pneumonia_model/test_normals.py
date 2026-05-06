@@ -24,7 +24,7 @@ for img_name in normal_images:
     
     score = model.predict(img_array, verbose=0)[0][0]
     
-    if score > 0.5:
+    if score > 0.65:
         print(f"[WRONG] {img_name} -> Diagnosed as PNEUMONIA ({score*100:.1f}%)")
     else:
         print(f"[CORRECT] {img_name} -> Diagnosed as NORMAL ({(1-score)*100:.1f}%)")
