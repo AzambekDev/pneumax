@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumax - AI Pneumonia Detection</title>
+    <!-- Modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="ph-fill ph-lungs"></i>
+                <h1>Pneumax</h1>
+            </div>
+            <p>Advanced AI-powered Chest X-Ray Analysis</p>
+        </header>
+
+        <main class="glass-panel">
+            <div class="upload-section" id="upload-section">
+                <div class="drop-zone" id="drop-zone">
+                    <i class="ph ph-upload-simple upload-icon"></i>
+                    <h3>Drag & Drop X-Ray Image</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="file-input" accept="image/jpeg, image/png, image/jpg" hidden>
+                </div>
+                
+                <div class="preview-container hidden" id="preview-container">
+                    <img id="image-preview" src="" alt="X-Ray Preview">
+                    <button class="btn-secondary" id="btn-change">
+                        <i class="ph ph-arrows-clockwise"></i> Change Image
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button class="btn-primary" id="btn-analyze" disabled>
+                    <i class="ph ph-scan"></i> Analyze Scan
+                </button>
+            </div>
+
+            <div class="result-section hidden" id="result-section">
+                <div class="loader hidden" id="loader">
+                    <div class="spinner"></div>
+                    <p>Analyzing X-Ray... <br><span>Running through EfficientNetV2B0</span></p>
+                </div>
+
+                <div class="diagnosis-card hidden" id="diagnosis-card">
+                    <h2 class="result-title">Diagnosis Result</h2>
+                    
+                    <div class="result-badge" id="result-badge">
+                        <i id="result-icon" class="ph-fill ph-check-circle"></i>
+                        <span id="result-text">NORMAL</span>
+                    </div>
+
+                    <div class="confidence-container">
+                        <div class="confidence-header">
+                            <span>AI Confidence</span>
+                            <span id="confidence-value">98.5%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="disclaimer">
+                        <i class="ph ph-warning-circle"></i>
+                        <p>This AI model is for research purposes only and should not replace professional medical advice.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

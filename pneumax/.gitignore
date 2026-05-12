@@ -1,0 +1,19 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Models and checkpoints
+*.keras
+*.h5
+*.hdf5
+checkpoints/
+models/
+
+# Images / Plots (optional, but let's keep them if they're small, maybe we just ignore datasets)
+# For now, we will track the sample .png training histories and confusion matrix.
